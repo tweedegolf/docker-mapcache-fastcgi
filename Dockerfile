@@ -1,7 +1,11 @@
 FROM debian:jessie
 
 ENV MAPCACHE_VERSION="1.4.1" \
-    MAPCACHE_CONFIG_FILE="/usr/local/etc/mapcache.xml"
+    MAPCACHE_CONFIG_FILE="/usr/local/etc/mapcache.xml" \
+    MAPCACHE_FASTCGI_PORT=9005 \
+    MAPCACHE_FASTCGI_CHILDEN=1 \
+    MAPCACHE_FASTCGI_ADDRESS="0.0.0.0"
+
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -46,3 +50,5 @@ RUN wget -O /tmp/mapcache-${MAPCACHE_VERSION}.tar.gz http://download.osgeo.org/m
     && cd /tmp \
     && rm -rf /tmp/mapcache-${MAPCACHE_VERSION} \
     && ldconfig
+
+CMD /usr/bin/spawn-fcgi -n -a ${MAPCACHE_FASTCGI_ADDRESS} -p ${MAPCACHE_FASTCGI_PORT} -F ${MAPCACHE_FASTCGI_CHILDEN} -- /usr/local/bin/mapcache.fcgi
