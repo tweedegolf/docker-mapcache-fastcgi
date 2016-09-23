@@ -12,6 +12,7 @@ RUN apt-get update \
         wget \
         cmake \
         spawn-fcgi \
+        multiwatch \
         build-essential \
         libapr1-dev \
         libaprutil1-dev \
@@ -51,4 +52,4 @@ RUN wget -O /tmp/mapcache-${MAPCACHE_VERSION}.tar.gz http://download.osgeo.org/m
     && rm -rf /tmp/mapcache-${MAPCACHE_VERSION} \
     && ldconfig
 
-CMD /usr/bin/spawn-fcgi -n -a ${MAPCACHE_FASTCGI_ADDRESS} -p ${MAPCACHE_FASTCGI_PORT} -F ${MAPCACHE_FASTCGI_CHILDEN} -- /usr/local/bin/mapcache.fcgi
+CMD /usr/bin/spawn-fcgi -n -a ${MAPCACHE_FASTCGI_ADDRESS} -p ${MAPCACHE_FASTCGI_PORT} -- /usr/bin/multiwatch -f ${MAPCACHE_FASTCGI_CHILDEN} -- /usr/local/bin/mapcache.fcgi
