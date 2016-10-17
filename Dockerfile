@@ -52,4 +52,4 @@ RUN wget -O /tmp/mapcache-${MAPCACHE_VERSION}.tar.gz http://download.osgeo.org/m
     && rm -rf /tmp/mapcache-${MAPCACHE_VERSION} \
     && ldconfig
 
-CMD /usr/bin/spawn-fcgi -n -a ${MAPCACHE_FASTCGI_ADDRESS} -p ${MAPCACHE_FASTCGI_PORT} -- /usr/bin/multiwatch -f ${MAPCACHE_FASTCGI_CHILDEN} -- /usr/local/bin/mapcache.fcgi
+CMD /usr/bin/spawn-fcgi -n -a ${MAPCACHE_FASTCGI_ADDRESS} -p ${MAPCACHE_FASTCGI_PORT} -- /usr/bin/multiwatch -f ${MAPCACHE_FASTCGI_CHILDREN} -- /usr/local/bin/mapcache.fcgi
